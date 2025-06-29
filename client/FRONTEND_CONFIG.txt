@@ -1,8 +1,8 @@
 KONFIGURACJA FRONTENDU - Vercel
 ===============================
 
-URL: https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app
-URL NAJNOWSZY: https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app
+URL: https://client-bsp4a9fpe-pawels-projects-6bbbf083.vercel.app
+URL NAJNOWSZY: https://client-bsp4a9fpe-pawels-projects-6bbbf083.vercel.app
 API URL: https://korke-backend-qm72ucfvqq-ew.a.run.app/api
 
 Plik konfiguracyjny: client/.env
@@ -11,9 +11,10 @@ REACT_APP_API_URL=https://korke-backend-qm72ucfvqq-ew.a.run.app/api
 Deploy: vercel --prod
 
 ---
-**Ostatnia aktualizacja**: 2025-01-28 19:15
+**Ostatnia aktualizacja**: 2025-01-28 20:44
 **Zmiana**: Usunięcie nagłówka z napisem "logowanie" i ikoną X, dodanie nowej ikony X w białym okręgu na banerze
 **Przez**: AI Assistant
+**UWAGA**: Jeśli nagłówek "Logowanie X" nadal się pojawia na mobile, wyczyść cache przeglądarki (Ctrl+F5 lub Cmd+Shift+R)
 **Historia zmian**: 
 - Usunięcie nagłówka z napisem "logowanie" i starą ikoną X
 - Dodanie nowej ikony X w białym okręgu w prawym górnym rogu banera (tylko mobile)
@@ -77,6 +78,7 @@ Deploy: vercel --prod
 - **NOWE**: Custom SVG X icon (24x24, black stroke, 2px width, rounded line caps)
 - **NOWE**: Biały okrągły background (40x40px) z subtelnym cieniem (0 2px 8px rgba(0,0,0,0.10))
 - **NOWE**: Pozycjonowanie: absolute top-3 right-3 z-10
+- **UWAGA**: Jeśli nagłówek nadal się pojawia, wyczyść cache przeglądarki (Ctrl+F5)
 
 **OSTATNIE ZMIANY UI**
 - Login modal: popup z blokowaniem przewijania i poprawionymi kliknięciami
@@ -98,7 +100,7 @@ Deploy: vercel --prod
 # Last updated: 2025-01-28
 
 ## DEPLOYMENT
-- **Frontend URL**: https://client-8w0znbmx8-pawels-projects-6bbbf083.vercel.app
+- **Frontend URL**: https://client-bsp4a9fpe-pawels-projects-6bbbf083.vercel.app
 - **Backend URL**: https://korke-backend-qm72ucfvqq-ew.a.run.app
 - **Database**: MongoDB Atlas - 'test' database
 
@@ -113,6 +115,7 @@ Deploy: vercel --prod
   - Positioning: absolute top-3 right-3 z-10
   - Mobile only: md:hidden class
   - Calls handleClose function on click
+  - **NOTE**: If header still appears, clear browser cache (Ctrl+F5 or Cmd+Shift+R)
 
 ### 2025-01-28 - Mobile Menu & Login Modal Improvements
 - **Mobile Menu**: 
@@ -175,4 +178,5 @@ AUTHENTICATION:
 - User context provider
 - Login Modal: Full screen on mobile (no padding, no max-height), centered modal on desktop, fade-in animation only
 - **NEW**: No header with login text, X icon in white circle on banner (mobile only)
+- **NOTE**: Clear browser cache if header still appears
 --- 

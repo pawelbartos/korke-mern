@@ -229,13 +229,13 @@
   animation: slide-up 0.3s ease-out;
 }
 
-/* Improved banner scroll animation */
+/* Improved banner scroll animation with exact loop point */
 @keyframes banner-scroll {
   0% { 
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(-100%); 
+    transform: translateX(-1219px); 
   }
 }
 

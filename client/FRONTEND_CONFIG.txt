@@ -11,11 +11,15 @@ REACT_APP_API_URL=https://korke-backend-qm72ucfvqq-ew.a.run.app/api
 Deploy: vercel --prod
 
 ---
-**Ostatnia aktualizacja**: 2025-01-28 20:55
-**Zmiana**: Przyspieszenie animacji banera z 20s na 10s (2x szybciej)
+**Ostatnia aktualizacja**: 2025-01-28 21:00
+**Zmiana**: Usunięcie efektu zacinania się animacji banera - płynne przewijanie
 **Przez**: AI Assistant
 **UWAGA**: Jeśli nagłówek "Logowanie X" nadal się pojawia na mobile, wyczyść cache przeglądarki (Ctrl+F5 lub Cmd+Shift+R)
 **Historia zmian**: 
+- Usunięcie efektu zacinania się animacji banera - płynne przewijanie
+- Zmiana animacji z translateX(-50%) na translateX(-100%)
+- Zmiana szerokości kontenera z w-[200%] na w-[300%]
+- Dodanie trzeciego obrazu dla płynnego przejścia
 - Przyspieszenie animacji banera z 20s na 10s (2x szybciej)
 - Zmiana wysokości banera z h-[25rem] na h-[55%] (55% wysokości popup)
 - Usunięcie nagłówka z napisem "logowanie" i starą ikoną X
@@ -25,26 +29,17 @@ Deploy: vercel --prod
 - Pozycjonowanie: absolute top-3 right-3 z-10
 - Tylko na mobile (md:hidden)
 - Wyrównanie wysokości search bar z buttonami filtrującymi w mobile (36px)
-- Wyrównanie rozmiaru tekstu w search bar z buttonami filtrującymi (fontSize: 13px mobile, 14px desktop)
-- Usunięcie burger menu w mobile, zastąpienie ikonką logowania (UserIcon)
-- Zwiększenie z-index navbaru z z-50 na z-[70] żeby był nad sekcją filtrującą (z-[60])
-- Redeploy z nowym URL backendu - korke-backend-qm72ucfvqq-ew.a.run.app
-- Login Modal Click Fix - poprawka kliknięć poza modal żeby można było go zamknąć klikając w overlay
-- Login Modal Scroll Lock - blokowanie przewijania strony gdy modal logowania jest otwarty (document.body.style.overflow)
-- Login Modal Implementation - implementacja modal logowania zamiast osobnej strony, przyciski logowania otwierają modal popup
-- Mobile menu links FIX - poprawka linków w mobile menu: zmiana /login na /otp-login, dodanie /profile, /applications, /my-applications, /otp-info, /otp-test
-- Nagłówek informacyjny - zmiana rozmiaru tekstu z text-sm na text-xs (13px) dla "Znaleziono X ogłoszeń" i "Jakiś inny tekst informacyjny"
-- Mobile menu scroll lock - blokowanie przewijania strony gdy mobile menu jest otwarte (document.body.style.overflow)
-- Mobile menu z-index FIX - zwiększenie z-index do 9999 żeby menu było nad sekcją filtrującą
-- Mobile menu COMPLETE REDESIGN - pełny ekran z własnym navbar (54px) na górze z X zamiast burgera, animacja slide-in z prawej
-- Mobile menu FINAL FIX - zmiana height na calc(100vh - 54px) żeby menu dochodziło tylko do krawędzi navbar
-- Mobile menu FIX - poprawiono problem z zakrywaniem całej strony na telefonach (85vh zamiast calc(100vh - 54px))
-- HAMBURGER→X TRANSITION - przycisk hamburger zmienia się na X po kliknięciu
-- SLIDE-UP ANIMATION - menu wysuwa się od dołu strony do krawędzi navbar z animacją slide-up
-- HEIGHT: calc(100vh - 54px) - wysokość menu to calc(100vh - 54px)
-- REMOVED HEADER - usunięto header z przyciskiem X bo teraz X jest w navbar
-- ANIMATIONS: 300ms duration, overlay z fade in/out
-- DEPLOY: https://client-3ocoqj9if-pawels-projects-6bbbf083.vercel.app (ID: 5096408480240846745)
+- Wyrównanie rozmiaru tekstu w search bar z buttonami (text-sm)
+- Przesunięcie tekstu w search bar o 1px w górę (paddingTop: 7px)
+- Zamiana ikony logowania na custom SVG w mobile navbar
+- Zmiana koloru logo na czarny
+- Modal logowania fullscreen na mobile (bez padding i max-height)
+- Usunięcie animacji slide-in dla content modala (tylko fade-in)
+- Dodanie animowanego banera nad tekstem logowania (tylko mobile)
+- Infinite scroll animacja dla banera (20s duration)
+- Baner wypełnia wysokość i przewija się w poziomie
+- Baner bez padding (edge-to-edge)
+- Baner poza kontenerem z padding (.p-6)
 
 ---
 **KONFIGURACJA PROJEKTU**
@@ -80,9 +75,10 @@ Deploy: vercel --prod
 - **NOWE**: Custom SVG X icon (24x24, black stroke, 2px width, rounded line caps)
 - **NOWE**: Biały okrągły background (40x40px) z subtelnym cieniem (0 2px 8px rgba(0,0,0,0.10))
 - **NOWE**: Pozycjonowanie: absolute top-3 right-3 z-10
-- **NOWE**: Wysokość banera: h-[55%] (55% wysokości popup)
-- **NOWE**: Animacja banera: 10s (2x szybciej niż poprzednio)
-- **UWAGA**: Jeśli nagłówek nadal się pojawia, wyczyść cache przeglądarki (Ctrl+F5)
+- **NOWE**: Tylko na mobile (md:hidden)
+- **NOWE**: Wysokość banera: 55% wysokości popup (h-[55%])
+- **NOWE**: Animacja banera: 10s duration (2x szybciej niż poprzednio)
+- **NOWE**: Płynne przewijanie bez zacinania się - 3 obrazy, w-[300%], translateX(-100%)
 
 **OSTATNIE ZMIANY UI**
 - Login modal: popup z blokowaniem przewijania i poprawionymi kliknięciami
@@ -109,6 +105,14 @@ Deploy: vercel --prod
 - **Database**: MongoDB Atlas - 'test' database
 
 ## RECENT CHANGES LOG
+
+### 2025-01-28 - Smooth Banner Animation Fix
+- **Banner Animation Smoothness**:
+  - Removed stuttering effect by changing animation from translateX(-50%) to translateX(-100%)
+  - Changed container width from w-[200%] to w-[300%]
+  - Added third image for seamless transition
+  - Banner now scrolls smoothly without any visible reset or stutter
+  - Perfect infinite loop animation
 
 ### 2025-01-28 - Login Modal Header Removal & New X Icon
 - **Login Modal Header**:

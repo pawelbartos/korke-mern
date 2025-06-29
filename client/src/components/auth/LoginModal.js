@@ -223,16 +223,21 @@ const LoginModal = ({ isOpen, onClose }) => {
                   </svg>
                 </button>
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                  <div className="w-[200%] h-full animate-banner-scroll">
+                  <div className="w-[300%] h-full animate-banner-scroll flex">
                     <img 
                       src={banner} 
                       alt="Banner" 
-                      className="w-1/2 h-full object-cover float-left" 
+                      className="w-1/3 h-full object-cover" 
                     />
                     <img 
                       src={banner} 
                       alt="Banner" 
-                      className="w-1/2 h-full object-cover float-left" 
+                      className="w-1/3 h-full object-cover" 
+                    />
+                    <img 
+                      src={banner} 
+                      alt="Banner" 
+                      className="w-1/3 h-full object-cover" 
                     />
                   </div>
                 </div>

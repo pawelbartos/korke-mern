@@ -235,10 +235,10 @@
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(-50%); 
+    transform: translateX(-100%); 
   }
 }
 
 .animate-banner-scroll {
-  animation: banner-scroll 15s linear infinite;
+  animation: banner-scroll 20s linear infinite;
 } 

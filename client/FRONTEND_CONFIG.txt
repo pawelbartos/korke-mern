@@ -11,11 +11,15 @@ REACT_APP_API_URL=https://korke-backend-qm72ucfvqq-ew.a.run.app/api
 Deploy: vercel --prod
 
 ---
-**Ostatnia aktualizacja**: 2025-01-28 21:00
-**Zmiana**: Usunięcie efektu zacinania się animacji banera - płynne przewijanie
+**Ostatnia aktualizacja**: 2025-01-28 21:05
+**Zmiana**: Zmiana animacji banera na nakładające się obrazy dla płynnego efektu
 **Przez**: AI Assistant
 **UWAGA**: Jeśli nagłówek "Logowanie X" nadal się pojawia na mobile, wyczyść cache przeglądarki (Ctrl+F5 lub Cmd+Shift+R)
 **Historia zmian**: 
+- Zmiana animacji banera na nakładające się obrazy dla płynnego efektu
+- Zmiana z 3 obrazów obok siebie na 2 nakładające się obrazy
+- Pozycjonowanie: pierwszy obraz left:0, drugi obraz left:100%
+- Animacja delay: -5s dla drugiego obrazu (pół cyklu)
 - Usunięcie efektu zacinania się animacji banera - płynne przewijanie
 - Zmiana animacji z translateX(-50%) na translateX(-100%)
 - Zmiana szerokości kontenera z w-[200%] na w-[300%]
@@ -78,7 +82,7 @@ Deploy: vercel --prod
 - **NOWE**: Tylko na mobile (md:hidden)
 - **NOWE**: Wysokość banera: 55% wysokości popup (h-[55%])
 - **NOWE**: Animacja banera: 10s duration (2x szybciej niż poprzednio)
-- **NOWE**: Płynne przewijanie bez zacinania się - 3 obrazy, w-[300%], translateX(-100%)
+- **NOWE**: Płynne przewijanie bez zacinania się - 2 nakładające się obrazy z animacją delay
 
 **OSTATNIE ZMIANY UI**
 - Login modal: popup z blokowaniem przewijania i poprawionymi kliknięciami
@@ -105,6 +109,14 @@ Deploy: vercel --prod
 - **Database**: MongoDB Atlas - 'test' database
 
 ## RECENT CHANGES LOG
+
+### 2025-01-28 - Overlapping Banner Images for Seamless Animation
+- **Banner Animation Overlap**:
+  - Changed from 3 side-by-side images to 2 overlapping images
+  - First image positioned at left:0, second image at left:100%
+  - Second image has animation delay of -5s (half cycle)
+  - Images overlap seamlessly creating perfect infinite loop
+  - Better suited for images that need to overlap for smooth effect
 
 ### 2025-01-28 - Smooth Banner Animation Fix
 - **Banner Animation Smoothness**:

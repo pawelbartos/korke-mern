@@ -222,10 +222,18 @@ const LoginModal = ({ isOpen, onClose }) => {
                     <path d="M6 18L18 6" stroke="black" strokeWidth="2" strokeLinecap="round"/>
                   </svg>
                 </button>
-                <div className="absolute top-0 left-0 w-[300%] h-full flex animate-banner-scroll">
-                  <img src={banner} alt="Banner" className="w-full h-full object-cover" />
-                  <img src={banner} alt="Banner" className="w-full h-full object-cover" />
-                  <img src={banner} alt="Banner" className="w-full h-full object-cover" />
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+                  <img 
+                    src={banner} 
+                    alt="Banner" 
+                    className="absolute top-0 left-0 w-full h-full object-cover animate-banner-scroll" 
+                  />
+                  <img 
+                    src={banner} 
+                    alt="Banner" 
+                    className="absolute top-0 left-full w-full h-full object-cover animate-banner-scroll" 
+                    style={{ animationDelay: '-5s' }}
+                  />
                 </div>
               </div>
 

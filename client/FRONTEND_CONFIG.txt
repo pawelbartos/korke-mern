@@ -109,7 +109,7 @@ Deploy: vercel --prod
 # Last updated: 2024-12-19
 
 ## DEPLOYMENT
-- **Frontend URL**: https://client-m1hipg3co-pawels-projects-6bbbf083.vercel.app
+- **Frontend URL**: https://client-aqzswn3dd-pawels-projects-6bbbf083.vercel.app
 - **Backend URL**: https://korke-backend-qm72ucfvqq-ew.a.run.app
 - **Database**: MongoDB Atlas - 'test' database
 
@@ -244,18 +244,16 @@ LOGIN MODAL (LoginModal.js):
 - Header with "Logowanie" text and old X icon removed
 - New X icon in white circle at top-right corner of banner (mobile only)
 - Banner image height: 55% of popup height
-- Banner scroll animation: Precise implementation with exact loop point
-  - Container width: calc(100% + 1219px) for perfect loop
-  - First image: 100% width (full container width)
-  - Second image: 1219px width (exact loop point)
+- Banner scroll animation: Corrected implementation with identical images
+  - Two identical images, each exactly 1219px width
   - Animation: 20s linear infinite scroll from 0 to -1219px
-  - Perfect seamless looping at exactly 1219px
+  - Perfect seamless looping when first image exits, second image is in position
 
 BANNER ANIMATION (index.css):
 - Keyframes: banner-scroll (0% to -1219px translateX)
 - Duration: 20s linear infinite
-- Container: calc(100% + 1219px) width with overflow hidden
-- Images: Two images - first at 100% width, second at 1219px width
+- Container: Flexbox layout with overflow hidden
+- Images: Two identical images at exactly 1219px width each
 - Exact loop point ensures perfect seamless transition
 
 RESPONSIVE DESIGN:

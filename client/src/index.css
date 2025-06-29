@@ -229,7 +229,7 @@
   animation: slide-up 0.3s ease-out;
 }
 
-@keyframes banner-scroll {
+@keyframes banner-scroll-1 {
   0% { 
     transform: translateX(0); 
   }
@@ -238,6 +238,20 @@
   }
 }
 
-.animate-banner-scroll {
-  animation: banner-scroll 10s linear infinite;
+@keyframes banner-scroll-2 {
+  0% { 
+    transform: translateX(0); 
+  }
+  100% { 
+    transform: translateX(-100%); 
+  }
+}
+
+.animate-banner-scroll-1 {
+  animation: banner-scroll-1 10s linear infinite;
+}
+
+.animate-banner-scroll-2 {
+  animation: banner-scroll-2 10s linear infinite;
+  animation-delay: -5s;
 } 

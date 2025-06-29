@@ -11,11 +11,15 @@ REACT_APP_API_URL=https://korke-backend-qm72ucfvqq-ew.a.run.app/api
 Deploy: vercel --prod
 
 ---
-**Ostatnia aktualizacja**: 2025-01-28 21:05
-**Zmiana**: Zmiana animacji banera na nakładające się obrazy dla płynnego efektu
+**Ostatnia aktualizacja**: 2025-01-28 21:10
+**Zmiana**: Naprawa timing animacji banera - eliminacja pustych miejsc i przeskakiwania
 **Przez**: AI Assistant
 **UWAGA**: Jeśli nagłówek "Logowanie X" nadal się pojawia na mobile, wyczyść cache przeglądarki (Ctrl+F5 lub Cmd+Shift+R)
 **Historia zmian**: 
+- Naprawa timing animacji banera - eliminacja pustych miejsc i przeskakiwania
+- Zmiana z jednej animacji na dwie osobne (banner-scroll-1 i banner-scroll-2)
+- Animacja delay: -5s dla drugiego obrazu (pół cyklu)
+- Usunięcie inline style animationDelay na rzecz CSS animation-delay
 - Zmiana animacji banera na nakładające się obrazy dla płynnego efektu
 - Zmiana z 3 obrazów obok siebie na 2 nakładające się obrazy
 - Pozycjonowanie: pierwszy obraz left:0, drugi obraz left:100%
@@ -82,7 +86,8 @@ Deploy: vercel --prod
 - **NOWE**: Tylko na mobile (md:hidden)
 - **NOWE**: Wysokość banera: 55% wysokości popup (h-[55%])
 - **NOWE**: Animacja banera: 10s duration (2x szybciej niż poprzednio)
-- **NOWE**: Płynne przewijanie bez zacinania się - 2 nakładające się obrazy z animacją delay
+- **NOWE**: Płynne przewijanie bez zacinania się - 2 nakładające się obrazy z osobnymi animacjami
+- **NOWE**: Naprawa timing - eliminacja pustych miejsc i przeskakiwania
 
 **OSTATNIE ZMIANY UI**
 - Login modal: popup z blokowaniem przewijania i poprawionymi kliknięciami
@@ -109,6 +114,15 @@ Deploy: vercel --prod
 - **Database**: MongoDB Atlas - 'test' database
 
 ## RECENT CHANGES LOG
+
+### 2025-01-28 - Banner Animation Timing Fix
+- **Banner Animation Timing**:
+  - Fixed timing issues that caused gaps and jumping
+  - Changed from single animation to two separate animations (banner-scroll-1 and banner-scroll-2)
+  - Proper animation delay: -5s for second image (half cycle)
+  - Removed inline style animationDelay in favor of CSS animation-delay
+  - Eliminated empty background areas and image jumping
+  - Perfect seamless overlap timing
 
 ### 2025-01-28 - Overlapping Banner Images for Seamless Animation
 - **Banner Animation Overlap**:

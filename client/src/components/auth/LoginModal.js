@@ -226,13 +226,12 @@ const LoginModal = ({ isOpen, onClose }) => {
                   <img 
                     src={banner} 
                     alt="Banner" 
-                    className="absolute top-0 left-0 w-full h-full object-cover animate-banner-scroll" 
+                    className="absolute top-0 left-0 w-full h-full object-cover animate-banner-scroll-1" 
                   />
                   <img 
                     src={banner} 
                     alt="Banner" 
-                    className="absolute top-0 left-full w-full h-full object-cover animate-banner-scroll" 
-                    style={{ animationDelay: '-5s' }}
+                    className="absolute top-0 left-full w-full h-full object-cover animate-banner-scroll-2" 
                   />
                 </div>
               </div>

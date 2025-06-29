@@ -109,7 +109,7 @@ Deploy: vercel --prod
 # Last updated: 2024-12-19
 
 ## DEPLOYMENT
-- **Frontend URL**: https://client-aqzswn3dd-pawels-projects-6bbbf083.vercel.app
+- **Frontend URL**: https://client-gbz7j5ia9-pawels-projects-6bbbf083.vercel.app
 - **Backend URL**: https://korke-backend-qm72ucfvqq-ew.a.run.app
 - **Database**: MongoDB Atlas - 'test' database
 
@@ -244,17 +244,19 @@ LOGIN MODAL (LoginModal.js):
 - Header with "Logowanie" text and old X icon removed
 - New X icon in white circle at top-right corner of banner (mobile only)
 - Banner image height: 55% of popup height
-- Banner scroll animation: Corrected implementation with identical images
-  - Two identical images, each exactly 1219px width
+- Banner scroll animation: Professional background-image approach
+  - Uses background-image with background-position animation
+  - background-repeat: repeat-x for seamless looping
+  - background-size: auto 100% for proper scaling
   - Animation: 20s linear infinite scroll from 0 to -1219px
-  - Perfect seamless looping when first image exits, second image is in position
+  - More reliable than img elements for seamless scrolling
 
 BANNER ANIMATION (index.css):
-- Keyframes: banner-scroll (0% to -1219px translateX)
+- Keyframes: banner-scroll (background-position: 0 0 to -1219px 0)
 - Duration: 20s linear infinite
-- Container: Flexbox layout with overflow hidden
-- Images: Two identical images at exactly 1219px width each
-- Exact loop point ensures perfect seamless transition
+- Container: Single div with background-image
+- Background properties: repeat-x, auto 100% size
+- Professional approach used by major websites
 
 RESPONSIVE DESIGN:
 - Mobile-first approach

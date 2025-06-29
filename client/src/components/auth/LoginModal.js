@@ -223,20 +223,14 @@ const LoginModal = ({ isOpen, onClose }) => {
                   </svg>
                 </button>
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                  <div className="h-full animate-banner-scroll flex">
-                    <img 
-                      src={banner} 
-                      alt="Banner" 
-                      className="h-full object-cover" 
-                      style={{ width: '1219px' }}
-                    />
-                    <img 
-                      src={banner} 
-                      alt="Banner" 
-                      className="h-full object-cover" 
-                      style={{ width: '1219px' }}
-                    />
-                  </div>
+                  <div 
+                    className="h-full animate-banner-scroll"
+                    style={{
+                      backgroundImage: `url(${banner})`,
+                      backgroundRepeat: 'repeat-x',
+                      backgroundSize: 'auto 100%'
+                    }}
+                  />
                 </div>
               </div>
 

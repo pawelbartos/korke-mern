@@ -229,16 +229,18 @@
   animation: slide-up 0.3s ease-out;
 }
 
-/* Improved banner scroll animation with exact loop point */
+/* Improved banner scroll animation with background approach */
 @keyframes banner-scroll {
   0% { 
-    transform: translateX(0); 
+    background-position: 0 0; 
   }
   100% { 
-    transform: translateX(-1219px); 
+    background-position: -1219px 0; 
   }
 }
 
 .animate-banner-scroll {
   animation: banner-scroll 20s linear infinite;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
 } 

@@ -208,7 +208,7 @@ const LoginModal = ({ isOpen, onClose }) => {
               {/* Header - USUNIĘTY */}
 
               {/* Banner animowany tylko na mobile - PRZENIESIONY NAD PADDING */}
-              <div className="relative w-full h-[25rem] overflow-hidden md:hidden">
+              <div className="relative w-full h-[55%] overflow-hidden md:hidden">
                 {/* Nowy X w białym okręgu w prawym górnym rogu */}
                 <button
                   onClick={handleClose}

@@ -11,22 +11,25 @@
     @apply bg-gray-50 text-gray-900;
   }
   
-  /* Prevent zooming on input focus on mobile */
-  input, textarea, select {
-    font-size: 16px !important;
+  /* Prevent zooming on input focus on mobile - but allow smaller sizes when explicitly set */
+  @media (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px;
+    }
   }
   
-  /* Ensure search inputs don't zoom */
-  input[type="search"], input[type="text"], input[type="email"], input[type="password"] {
-    font-size: 16px !important;
+  /* For desktop and when explicitly styled, allow custom font sizes */
+  @media (min-width: 769px) {
+    input, textarea, select {
+      font-size: inherit;
+    }
   }
   
-  /* Override placeholder font size for search inputs to match filter buttons */
-  input[type="text"]::placeholder {
-    font-size: 14px !important;
-    font-weight: normal !important;
-    line-height: 1.25rem !important;
-    transform: translateY(-2px) !important;
+  /* Ensure placeholder matches the input text size */
+  input::placeholder {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
   }
 }
 
@@ -129,6 +132,87 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+  
+  .scrollbar-hide-safari {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  .scrollbar-hide-safari::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  
+  .scrollbar-hide-safari::-webkit-scrollbar-track {
+    display: none;
+  }
+  
+  .scrollbar-hide-safari::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  
+  /* iOS specific scrollbar hiding */
+  @supports (-webkit-touch-callout: none) {
+    .scrollbar-hide-safari {
+      -webkit-overflow-scrolling: touch;
+      overflow: -webkit-scrollbar;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar-track {
+      display: none !important;
+      background: transparent !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar-thumb {
+      display: none !important;
+      background: transparent !important;
+    }
+  }
+  
+  /* Additional aggressive iOS scrollbar hiding */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .scrollbar-hide-safari {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar-track {
+      display: none !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar-thumb {
+      display: none !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    
+    .scrollbar-hide-safari::-webkit-scrollbar-corner {
+      display: none !important;
+      background: transparent !important;
+    }
+  }
 }
 
 /* Custom animations */
@@ -143,4 +227,13 @@
 
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
+}
+
+@keyframes banner-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-banner-scroll {
+  animation: banner-scroll 20s linear infinite;
 } 

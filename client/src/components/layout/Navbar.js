@@ -1,11 +1,42 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Bars3Icon, XMarkIcon, UserIcon, AcademicCapIcon, ChatBubbleLeftRightIcon, Cog6ToothIcon, BookmarkIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import LoginModal from '../auth/LoginModal';
+
+// Custom User Icon SVG
+const UserIcon = ({ className }) => (
+  <svg 
+    width="32" 
+    height="32" 
+    viewBox="0 0 32 32" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path 
+      fillRule="evenodd" 
+      clipRule="evenodd" 
+      d="M16 5.33317C10.1089 5.33317 5.33329 10.1088 5.33329 15.9998C5.33329 21.8909 10.1089 26.6665 16 26.6665C21.891 26.6665 26.6666 21.8909 26.6666 15.9998C26.6666 10.1088 21.891 5.33317 16 5.33317ZM2.66663 15.9998C2.66663 8.63604 8.63616 2.6665 16 2.6665C23.3638 2.6665 29.3333 8.63604 29.3333 15.9998C29.3333 23.3636 23.3638 29.3332 16 29.3332C8.63616 29.3332 2.66663 23.3636 2.66663 15.9998Z" 
+      fill="black"
+    />
+    <path 
+      fillRule="evenodd" 
+      clipRule="evenodd" 
+      d="M16 10.6667C14.5272 10.6667 13.3333 11.8606 13.3333 13.3333C13.3333 14.8061 14.5272 16 16 16C17.4727 16 18.6666 14.8061 18.6666 13.3333C18.6666 11.8606 17.4727 10.6667 16 10.6667ZM10.6666 13.3333C10.6666 10.3878 13.0544 8 16 8C18.9455 8 21.3333 10.3878 21.3333 13.3333C21.3333 16.2789 18.9455 18.6667 16 18.6667C13.0544 18.6667 10.6666 16.2789 10.6666 13.3333Z" 
+      fill="black"
+    />
+    <path 
+      fillRule="evenodd" 
+      clipRule="evenodd" 
+      d="M11.2674 23.2783C10.3653 23.6502 9.8256 24.2056 9.46237 25.1467C9.19724 25.8337 8.42539 26.1757 7.73839 25.9106C7.0514 25.6454 6.70941 24.8736 6.97455 24.1866C7.59355 22.5827 8.65364 21.4714 10.2512 20.8129C11.7534 20.1936 13.6722 20 15.9998 20C18.3392 20 20.2689 20.1812 21.775 20.7938C23.3847 21.4487 24.4443 22.5677 25.0551 24.1993C25.3132 24.8889 24.9634 25.6572 24.2737 25.9154C23.5841 26.1735 22.8157 25.8237 22.5576 25.1341C22.199 24.176 21.666 23.6284 20.7702 23.2639C19.7707 22.8573 18.2817 22.6667 15.9998 22.6667C13.7457 22.6667 12.2649 22.8671 11.2674 23.2783Z" 
+      fill="black"
+    />
+  </svg>
+);
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const activeLinkStyle = {
     backgroundColor: '#fef3c7',
@@ -13,33 +44,23 @@ const Navbar = () => {
     fontWeight: '600',
   };
 
-  const authLinks = user ? [
-    { to: '/dashboard', text: 'Panel główny', icon: Cog6ToothIcon },
-    { to: '/favorites', text: 'Moje zakładki', icon: BookmarkIcon },
-    { to: '/profile', text: 'Profil', icon: UserIcon },
-    { to: '/messages', text: 'Wiadomości', icon: ChatBubbleLeftRightIcon },
-    ...(user.role === 'teacher' ? [{ to: '/applications', text: 'Aplikacje', icon: AcademicCapIcon }] : []),
-    ...(user.role === 'student' ? [{ to: '/my-applications', text: 'Moje aplikacje', icon: AcademicCapIcon }] : []),
-  ] : [
-    { to: '/otp-login', text: 'Zaloguj się', icon: UserIcon },
-    { to: '/otp-info', text: 'Jak to działa?', icon: InformationCircleIcon },
-    { to: '/otp-test', text: 'Test OTP', icon: AcademicCapIcon },
-  ];
-
-  const handleLogout = () => {
-    logout();
-    setIsOpen(false);
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
   };
-   
+
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
   return (
     <>
-      <nav className="bg-white sticky top-0 z-50">
+      <nav className="bg-white border-b border-[#E4E4E4] sticky top-0 z-[70]">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex items-center justify-between h-[54px] md:h-12">
+          <div className="flex items-center justify-between" style={{height: '54px'}}>
             
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold hover:text-blue-600 transition-colors duration-200" style={{color: '#333333'}}>
+              <Link to="/" className="text-2xl font-bold hover:text-blue-600 transition-colors duration-200" style={{color: '#000000'}}>
                 korke
               </Link>
             </div>
@@ -55,109 +76,45 @@ const Navbar = () => {
                      </div>
                   ) : (
                     <div className="flex items-center space-x-2">
-                      <NavLink to="/otp-login" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm">Zaloguj się</NavLink>
+                      <button 
+                        onClick={openLoginModal}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm"
+                      >
+                        Zaloguj się
+                      </button>
                     </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile login button */}
             <div className="md:hidden">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                type="button"
-                className="p-2 rounded-lg text-gray-600 hover:text-gray-900 focus:outline-none"
-                aria-controls="mobile-menu"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Otwórz menu główne</span>
-                <Bars3Icon className="h-6 w-6" />
-              </button>
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none transition-all duration-200"
+                  aria-label="Panel użytkownika"
+                >
+                  <UserIcon className="h-8 w-8" />
+                </Link>
+              ) : (
+                <button
+                  onClick={openLoginModal}
+                  type="button"
+                  className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none transition-all duration-200"
+                  aria-label="Zaloguj się"
+                >
+                  <UserIcon className="h-8 w-8" />
+                </button>
+              )}
             </div>
           </div>
         </div>
       </nav>
-      
-      {/* Mobile menu popup overlay */}
-      {isOpen && (
-        <div className="md:hidden fixed inset-0 z-[100]">
-          {/* Dark overlay */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
-            onClick={() => setIsOpen(false)}
-          />
-          
-          {/* Menu panel */}
-          <div className="fixed right-0 top-0 h-full w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
-            {/* Header with close button */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900">Menu</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-              >
-                <XMarkIcon className="h-6 w-6" />
-              </button>
-            </div>
-            
-            {/* Menu content */}
-            <div className="flex flex-col h-full overflow-y-auto">
-              <div className="flex-1 px-6 py-4">
-                {/* Auth Links */}
-                <div className="space-y-2 mb-8">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Konto</h3>
-                  {authLinks.map((link) => (
-                    <NavLink
-                      key={link.to}
-                      to={link.to}
-                      onClick={() => setIsOpen(false)}
-                      style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
-                      className="flex items-center px-4 py-4 text-lg font-medium text-gray-700 hover:bg-amber-50 hover:text-amber-800 rounded-xl transition-all duration-200 group"
-                    >
-                      <link.icon className="mr-4 h-6 w-6 text-gray-500 group-hover:text-amber-600 transition-colors duration-200" />
-                      {link.text}
-                    </NavLink>
-                  ))}
-                  
-                  {/* Logout button for logged in users */}
-                  {user && (
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center px-4 py-4 text-lg font-medium text-gray-700 hover:bg-red-50 hover:text-red-800 rounded-xl transition-all duration-200 group"
-                    >
-                      <svg className="mr-4 h-6 w-6 text-gray-500 group-hover:text-red-600 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      Wyloguj się
-                    </button>
-                  )}
-                </div>
 
-                {/* User info for logged in users */}
-                {user && (
-                  <>
-                    <div className="border-t border-gray-200 my-6"></div>
-                    <div className="px-4 py-6 bg-gray-50 rounded-xl">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                          <div className="h-12 w-12 bg-blue-600 rounded-full flex items-center justify-center">
-                            <UserIcon className="h-6 w-6 text-white" />
-                          </div>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-base font-medium text-gray-900">Zalogowany użytkownik</p>
-                          <p className="text-sm text-gray-500">Panel korepetytora</p>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </>
   );
 };

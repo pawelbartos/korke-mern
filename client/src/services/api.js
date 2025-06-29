@@ -55,7 +55,17 @@ export const userAPI = {
 
 // Tutoring API
 export const tutoringAPI = {
-  getAds: (params) => api.get('/tutoring', { params }).then(res => res.data),
+  getAds: (params) => {
+    console.log('🌐 API URL:', process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
+    console.log('📤 Making request to /tutoring with params:', params);
+    return api.get('/tutoring', { params }).then(res => {
+      console.log('📥 Response received:', res.data);
+      return res.data;
+    }).catch(err => {
+      console.error('🚨 API request failed:', err);
+      throw err;
+    });
+  },
   getAd: (id) => api.get(`/tutoring/${id}`).then(res => res.data),
   createAd: (data) => api.post('/tutoring', data).then(res => res.data),
   updateAd: (id, data) => api.put(`/tutoring/${id}`, data).then(res => res.data),

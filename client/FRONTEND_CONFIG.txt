@@ -1,0 +1,178 @@
+KONFIGURACJA FRONTENDU - Vercel
+===============================
+
+URL: https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app
+URL NAJNOWSZY: https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app
+API URL: https://korke-backend-qm72ucfvqq-ew.a.run.app/api
+
+Plik konfiguracyjny: client/.env
+REACT_APP_API_URL=https://korke-backend-qm72ucfvqq-ew.a.run.app/api
+
+Deploy: vercel --prod
+
+---
+**Ostatnia aktualizacja**: 2025-01-28 19:15
+**Zmiana**: Usunięcie nagłówka z napisem "logowanie" i ikoną X, dodanie nowej ikony X w białym okręgu na banerze
+**Przez**: AI Assistant
+**Historia zmian**: 
+- Usunięcie nagłówka z napisem "logowanie" i starą ikoną X
+- Dodanie nowej ikony X w białym okręgu w prawym górnym rogu banera (tylko mobile)
+- Custom SVG X icon (24x24, black stroke, 2px width)
+- Biały okrągły background (40x40px) z subtelnym cieniem
+- Pozycjonowanie: absolute top-3 right-3 z-10
+- Tylko na mobile (md:hidden)
+- Wyrównanie wysokości search bar z buttonami filtrującymi w mobile (36px)
+- Wyrównanie rozmiaru tekstu w search bar z buttonami filtrującymi (fontSize: 13px mobile, 14px desktop)
+- Usunięcie burger menu w mobile, zastąpienie ikonką logowania (UserIcon)
+- Zwiększenie z-index navbaru z z-50 na z-[70] żeby był nad sekcją filtrującą (z-[60])
+- Redeploy z nowym URL backendu - korke-backend-qm72ucfvqq-ew.a.run.app
+- Login Modal Click Fix - poprawka kliknięć poza modal żeby można było go zamknąć klikając w overlay
+- Login Modal Scroll Lock - blokowanie przewijania strony gdy modal logowania jest otwarty (document.body.style.overflow)
+- Login Modal Implementation - implementacja modal logowania zamiast osobnej strony, przyciski logowania otwierają modal popup
+- Mobile menu links FIX - poprawka linków w mobile menu: zmiana /login na /otp-login, dodanie /profile, /applications, /my-applications, /otp-info, /otp-test
+- Nagłówek informacyjny - zmiana rozmiaru tekstu z text-sm na text-xs (13px) dla "Znaleziono X ogłoszeń" i "Jakiś inny tekst informacyjny"
+- Mobile menu scroll lock - blokowanie przewijania strony gdy mobile menu jest otwarte (document.body.style.overflow)
+- Mobile menu z-index FIX - zwiększenie z-index do 9999 żeby menu było nad sekcją filtrującą
+- Mobile menu COMPLETE REDESIGN - pełny ekran z własnym navbar (54px) na górze z X zamiast burgera, animacja slide-in z prawej
+- Mobile menu FINAL FIX - zmiana height na calc(100vh - 54px) żeby menu dochodziło tylko do krawędzi navbar
+- Mobile menu FIX - poprawiono problem z zakrywaniem całej strony na telefonach (85vh zamiast calc(100vh - 54px))
+- HAMBURGER→X TRANSITION - przycisk hamburger zmienia się na X po kliknięciu
+- SLIDE-UP ANIMATION - menu wysuwa się od dołu strony do krawędzi navbar z animacją slide-up
+- HEIGHT: calc(100vh - 54px) - wysokość menu to calc(100vh - 54px)
+- REMOVED HEADER - usunięto header z przyciskiem X bo teraz X jest w navbar
+- ANIMATIONS: 300ms duration, overlay z fade in/out
+- DEPLOY: https://client-3ocoqj9if-pawels-projects-6bbbf083.vercel.app (ID: 5096408480240846745)
+
+---
+**KONFIGURACJA PROJEKTU**
+- Framework: React 18
+- Styling: Tailwind CSS
+- Routing: React Router v6
+- State Management: React Query + Context API
+- Icons: Heroicons
+- Build Tool: Create React App
+- Deployment: Vercel
+
+**STRUKTURA MENU MOBILE**
+- Pełny ekran z własnym navbar (54px)
+- Animacja slide-in z prawej strony
+- Z-index: 9999 (nad wszystkimi elementami)
+- Blokowanie przewijania strony gdy otwarte
+- Linki dla zalogowanych: Dashboard, Profil, Wiadomości, Ulubione, Aplikacje/Moje aplikacje
+- Linki dla niezalogowanych: Zaloguj się (modal), Jak to działa? (/otp-info), Test OTP (/otp-test)
+
+**LOGIN MODAL**
+- Modal popup zamiast osobnej strony
+- Z-index: 10000 (nad mobile menu)
+- Animacja scale + fade in/out
+- Backdrop z kliknięciem do zamknięcia (pointer-events-none/auto)
+- Reset formularza przy zamknięciu
+- Automatyczne zamknięcie po udanym logowaniu
+- Blokowanie przewijania strony gdy otwarty
+- Wszystkie kroki: email → register (opcjonalnie) → OTP
+- Safari iOS specific fixes: webkitOverflowScrolling, touchAction, overscrollBehavior
+- Opens from navbar login buttons instead of navigation
+- **NOWE**: Usunięty nagłówek z napisem "logowanie" i ikoną X
+- **NOWE**: Nowa ikona X w białym okręgu w prawym górnym rogu banera (tylko mobile)
+- **NOWE**: Custom SVG X icon (24x24, black stroke, 2px width, rounded line caps)
+- **NOWE**: Biały okrągły background (40x40px) z subtelnym cieniem (0 2px 8px rgba(0,0,0,0.10))
+- **NOWE**: Pozycjonowanie: absolute top-3 right-3 z-10
+
+**OSTATNIE ZMIANY UI**
+- Login modal: popup z blokowaniem przewijania i poprawionymi kliknięciami
+- Nagłówek informacyjny: text-xs (13px)
+- Mobile menu: pełny ekran z poprawnymi linkami
+- Standardowe wysokości: navbar 54px, przyciski 32px/36px
+- Ikony lokalizacji w ogłoszeniach
+- Skeleton loading dla sekcji informacyjnych
+- **UI Improvements**:
+  - Informational text on tutoring ads page: text-xs (13px) instead of text-sm
+  - Polish grammar fix: correct plural forms for "ogłoszenie" (1 ogłoszenie, 2-4 ogłoszenia, 5+ ogłoszeń)
+  - Removed shadow from bookmark icon in tutoring ads list (shadow-none)
+  - Ultra-aggressive scrollbar hiding for iOS (overflow-x-scroll + inline styles + CSS @media + @supports with !important)
+  - Safari iOS fix: removed white gap under filter buttons with strict height constraints
+  - Consistent mobile menu heights and animations
+  - Proper z-index layering for all components
+
+# FRONTEND CONFIGURATION - KORKE MERN PROJECT
+# Last updated: 2025-01-28
+
+## DEPLOYMENT
+- **Frontend URL**: https://client-8w0znbmx8-pawels-projects-6bbbf083.vercel.app
+- **Backend URL**: https://korke-backend-qm72ucfvqq-ew.a.run.app
+- **Database**: MongoDB Atlas - 'test' database
+
+## RECENT CHANGES LOG
+
+### 2025-01-28 - Login Modal Header Removal & New X Icon
+- **Login Modal Header**:
+  - Removed header with "Logowanie" text and old X icon
+  - Added new X icon in white circle positioned at top-right corner of banner (mobile only)
+  - Custom SVG X icon: 24x24px, black stroke, 2px width, rounded line caps
+  - White circular background: 40x40px with subtle shadow (0 2px 8px rgba(0,0,0,0.10))
+  - Positioning: absolute top-3 right-3 z-10
+  - Mobile only: md:hidden class
+  - Calls handleClose function on click
+
+### 2025-01-28 - Mobile Menu & Login Modal Improvements
+- **Mobile Menu**: 
+  - Full-screen slide-in from right with own navbar containing X button
+  - Height: calc(100vh - 54px) to reach navbar edge
+  - Z-index: 50 for overlay, 51 for panel to prevent filter buttons covering menu
+  - Blocks page scroll when open (overflow: hidden)
+  - 300ms slide-in animation with fade overlay
+  - Correct navigation links: /otp-login, /profile, /applications, /my-applications, /otp-info, /otp-test
+
+- **Login Modal**:
+  - Modal popup instead of separate page
+  - Replicates OTP login flow (email → registration → OTP verification)
+  - Blocks page scroll on mobile with position: fixed + scroll position preservation
+  - Safari iOS specific fixes: webkitOverflowScrolling, touchAction, overscrollBehavior
+  - Closable by clicking overlay or X button
+  - Pointer-events fix for proper backdrop clicking
+  - Opens from navbar login buttons instead of navigation
+
+- **UI Improvements**:
+  - Informational text on tutoring ads page: text-xs (13px) instead of text-sm
+  - Polish grammar fix: correct plural forms for "ogłoszenie" (1 ogłoszenie, 2-4 ogłoszenia, 5+ ogłoszeń)
+  - Removed shadow from bookmark icon in tutoring ads list (shadow-none)
+  - Ultra-aggressive scrollbar hiding for iOS (overflow-x-scroll + inline styles + CSS @media + @supports with !important)
+  - Safari iOS fix: removed white gap under filter buttons with strict height constraints
+  - Consistent mobile menu heights and animations
+  - Proper z-index layering for all components
+
+## TECHNICAL DETAILS
+- React 18 with hooks
+- Tailwind CSS for styling
+- Responsive design with mobile-first approach
+- Socket.io for real-time features
+- JWT authentication with OTP system
+
+SEARCH BAR:
+- Mobile: 36px height, 13px font size, centered text vertically (display: flex, alignItems: center), no line-height (matches buttons)
+- Desktop: 32px height, 14px font size
+- Background: #F1F1F1
+- Border: #F1F1F1 (default), #E1B438 (active)
+- Padding: 40px left, 16px right (40px when loading)
+- Mobile padding: 7px top, 8px bottom, Desktop: 5px top, 7px bottom
+- Placeholder: Black text
+- Icon: Magnifying glass (left side)
+- Loading spinner: Right side when searching
+
+NAVBAR:
+- Height: 54px
+- Z-index: 70 (above filtering buttons)
+- Logo: "korke" in black color (#000000)
+- Mobile: Custom user icon SVG (32x32 viewBox, black fill, 32x32px size)
+- Desktop: Full navigation menu
+- Background: White with shadow
+- Position: Fixed top
+
+AUTHENTICATION:
+- OTP-based login system
+- Protected routes
+- Session management
+- User context provider
+- Login Modal: Full screen on mobile (no padding, no max-height), centered modal on desktop, fade-in animation only
+- **NEW**: No header with login text, X icon in white circle on banner (mobile only)
+--- 

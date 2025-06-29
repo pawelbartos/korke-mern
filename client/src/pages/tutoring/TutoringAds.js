@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, MagnifyingGlassIcon, MapPinIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../../contexts/AuthContext';
 import { createPortal } from 'react-dom';
 import { tutoringAPI } from '../../services/api';
@@ -26,12 +26,24 @@ const TutoringAdCard = ({ ad, user, onLike, isLiked }) => {
         </div>
         
         {/* Content */}
-        <div className="flex-1 flex flex-col justify-center">
-          <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2">{ad.title}</h3>
-          <p className="text-xs text-gray-600 mt-1">{ad.subject}</p>
+        <div className="flex-1 flex flex-col justify-center min-w-0">
+          <h3 className="text-sm sm:text-base font-semibold text-gray-900 truncate pr-8">{ad.title}</h3>
+          <p className="text-xs text-gray-600 mt-1 pr-8">{ad.subject}</p>
           <div className="flex-grow"></div> {/* Spacer */}
-          <div className="flex items-center justify-between text-xs text-gray-500 mt-1">
-            <span>{ad.location.type === 'online' ? 'Online' : ad.location.city}</span>
+          <div className="flex items-center justify-between text-xs text-gray-500 mt-1 pr-2">
+            <div className="flex items-center gap-1">
+              {ad.location.type === 'online' ? (
+                <>
+                  <GlobeAltIcon className="h-3 w-3 text-gray-400" />
+                  <span>Online</span>
+                </>
+              ) : (
+                <>
+                  <MapPinIcon className="h-3 w-3 text-gray-400" />
+                  <span>{ad.location.city}</span>
+                </>
+              )}
+            </div>
             <span className="font-semibold text-green-600">{ad.price.amount} zł/h</span>
           </div>
         </div>
@@ -44,7 +56,7 @@ const TutoringAdCard = ({ ad, user, onLike, isLiked }) => {
           e.stopPropagation();
           onLike(ad._id, e);
         }}
-        className="absolute top-1.5 right-1.5 p-1.5 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors z-10"
+        className="absolute top-1.5 right-1.5 p-1.5 bg-white rounded-full shadow-none hover:bg-gray-50 transition-colors z-10"
       >
         {isLiked ? (
           <BookmarkIconSolid className="h-4 w-4" style={{color: 'rgb(56 213 225)'}} />
@@ -137,10 +149,14 @@ const CustomDropdown = ({
       <button
         ref={buttonRef}
         onClick={handleButtonClick}
-        className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+        className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 lg:py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
           isActive ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
         }`}
-        style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+        style={{
+          backgroundColor: '#F1F1F1', 
+          color: '#000000',
+          fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+        }}
       >
         {buttonText}
       </button>
@@ -273,14 +289,29 @@ const SkeletonAdCard = () => (
   </div>
 );
 
+const SkeletonInfoBlocks = () => (
+  <div className="text-sm text-black mb-2 overflow-x-auto whitespace-nowrap -mx-2 sm:-mx-4 px-2 sm:px-4 animate-pulse">
+    <div className="flex items-center space-x-4 py-1">
+      <div className="inline-flex items-center flex-shrink-0">
+        <div className="h-2 w-2 bg-gray-200 rounded-full mr-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-32"></div>
+      </div>
+      <div className="inline-flex items-center flex-shrink-0">
+        <div className="h-2 w-2 bg-gray-200 rounded-full mr-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-40"></div>
+      </div>
+    </div>
+  </div>
+);
+
 // Calculate skeleton count based on screen size
 const getSkeletonCount = () => {
   // Height of a single skeleton card (p-2 + h-20 = 8px padding + 80px height = 88px) plus gap (gap-2 = 8px)
   const skeletonCardHeight = 88 + 8; // px
   
-  // Get viewport height and subtract header/filter heights
-  const viewportHeight = window.innerHeight;
-  const headerHeight = 120; // Approximate height for nav + filters
+      // Get viewport height and subtract header/filter heights
+    const viewportHeight = window.innerHeight;
+    const headerHeight = 110; // 55px navbar (54px + 1px border) + 55px filters (54px + 1px border)
   const availableHeight = viewportHeight - headerHeight;
   
   // Calculate how many cards can fit and add 3 extra
@@ -290,9 +321,12 @@ const getSkeletonCount = () => {
 };
 
 const TutoringAds = () => {
+  console.log('🎯 TutoringAds component is rendering!');
   const { user } = useAuth();
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log('📋 Current ads state:', ads);
+  console.log('⏳ Current loading state:', loading);
   const [searchLoading, setSearchLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('Wszystkie kategorie');
@@ -358,16 +392,21 @@ const TutoringAds = () => {
   useEffect(() => {
     const loadAds = async () => {
       try {
+        console.log('🔄 Starting to load ads...');
         setLoading(true);
         const response = await tutoringAPI.getAds({ 
           limit: 100 // Load all ads at once for filtering
         });
+        console.log('✅ Ads loaded successfully:', response);
+        console.log('📊 Number of ads:', response.ads?.length || 0);
         setAds(response.ads);
       } catch (error) {
-        console.error('Error loading ads:', error);
+        console.error('❌ Error loading ads:', error);
+        console.error('❌ Error details:', error.response?.data || error.message);
         // On error, keep empty array
         setAds([]);
       } finally {
+        console.log('🏁 Loading finished');
         setLoading(false);
       }
     };
@@ -642,10 +681,15 @@ const TutoringAds = () => {
   // Sort filtered ads
   const sortedAds = sortAds(filteredAds);
   const totalAds = sortedAds.length;
+  console.log('🔢 Filtered ads count:', filteredAds.length);
+  console.log('🔢 Sorted ads count:', sortedAds.length);
+  console.log('📊 Total ads for display:', totalAds);
 
   // Paginate ads
   const displayedAds = sortedAds.slice(0, currentPage * itemsPerPage);
   const hasMore = displayedAds.length < totalAds;
+  console.log('📄 Displayed ads count:', displayedAds.length);
+  console.log('➡️ Has more ads to show:', hasMore);
 
   // Reset pagination when filters change
   useEffect(() => {
@@ -685,20 +729,60 @@ const TutoringAds = () => {
     <SkeletonAdCard key={`skeleton-${index}`} />
   ));
 
+  // Function to get correct Polish plural form for "ogłoszenie"
+  const getPolishPlural = (count) => {
+    if (count === 1) return 'ogłoszenie';
+    if (count >= 2 && count <= 4) return 'ogłoszenia';
+    return 'ogłoszeń';
+  };
+
   return (
     <div className="min-h-screen" style={{backgroundColor: '#F1F1F1'}}>
       {/* Filter Section - Full Width White Block - Mobile */}
-      <div className="bg-white border-b border-[#E4E4E4] sticky top-[54px] z-[60] lg:hidden h-[54px]" style={{
+      <div className="bg-white border-b border-[#E4E4E4] sticky top-[55px] z-[60] lg:hidden" style={{
+        height: '55px',
+        minHeight: '55px',
+        maxHeight: '55px',
         willChange: 'transform',
         transform: 'translateZ(0)',
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
-        borderTop: '1px solid #E4E4E4',
+        overflow: 'hidden',
+        boxSizing: 'border-box'
       }}>
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 overflow-x-auto h-full">
-          <div className="flex items-center space-x-2 sm:space-x-3 h-full">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 overflow-x-scroll h-full scrollbar-hide-safari" style={{
+          height: '100%',
+          minHeight: '100%',
+          maxHeight: '100%',
+          boxSizing: 'border-box',
+          WebkitOverflowScrolling: 'touch',
+          msOverflowStyle: 'none',
+          scrollbarWidth: 'none',
+          overflow: '-webkit-scrollbar',
+          '::-webkit-scrollbar': { display: 'none' },
+          '::-webkit-scrollbar-track': { display: 'none' },
+          '::-webkit-scrollbar-thumb': { display: 'none' }
+        }}>
+          <div className="flex items-center space-x-2 sm:space-x-3 h-full" style={{
+            height: '100%',
+            minHeight: '100%',
+            maxHeight: '100%',
+            boxSizing: 'border-box'
+          }}>
             {/* Filter Buttons - Inline */}
-            <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto">
+            <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-scroll scrollbar-hide-safari" style={{
+              height: '100%',
+              minHeight: '100%',
+              maxHeight: '100%',
+              boxSizing: 'border-box',
+              WebkitOverflowScrolling: 'touch',
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+              overflow: '-webkit-scrollbar',
+              '::-webkit-scrollbar': { display: 'none' },
+              '::-webkit-scrollbar-track': { display: 'none' },
+              '::-webkit-scrollbar-thumb': { display: 'none' }
+            }}>
               {/* Categories Dropdown */}
               <CustomDropdown
                 buttonText={selectedCategory}
@@ -738,10 +822,14 @@ const TutoringAds = () => {
                 <button
                   ref={mobileSortButtonRef}
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 lg:py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                     sortBy !== 'newest' ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                   }`}
-                  style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                  style={{
+                    backgroundColor: '#F1F1F1', 
+                    color: '#000000',
+                    fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                  }}
                 >
                   {getCurrentSortLabel()}
                 </button>
@@ -799,10 +887,14 @@ const TutoringAds = () => {
                 <button
                   ref={mobilePriceButtonRef}
                   onClick={() => setShowPriceDropdown(!showPriceDropdown)}
-                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 lg:py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                     selectedPriceRange !== 'Wszystkie ceny' ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                   }`}
-                  style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                  style={{
+                    backgroundColor: '#F1F1F1', 
+                    color: '#000000',
+                    fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                  }}
                 >
                   {selectedPriceRange}
                 </button>
@@ -858,10 +950,14 @@ const TutoringAds = () => {
               {/* Moje zakładki Button */}
               <button
                 onClick={handleShowFavoritesToggle}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-2 lg:py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                   showFavoritesOnly ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                 }`}
-                style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                style={{
+                  backgroundColor: '#F1F1F1', 
+                  color: '#000000',
+                  fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                }}
               >
                 Moje zakładki
               </button>
@@ -880,16 +976,27 @@ const TutoringAds = () => {
                     placeholder="Szukaj ogłoszeń..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className={`w-full pl-10 pr-4 py-2 text-sm border rounded-full focus:outline-none hover:bg-gray-100 transition-colors placeholder-black ${
+                    className={`w-full h-8 text-sm border rounded-full focus:outline-none hover:bg-gray-100 transition-colors placeholder-black placeholder:text-sm ${
                       searchTerm ? 'border-[#e1b438]' : 'border-[#F1F1F1]'
-                    } ${searchLoading ? 'pr-10' : ''}`}
+                    } ${searchLoading ? 'pr-10' : 'pr-4'}`}
                     style={{
                       backgroundColor: '#F1F1F1', 
                       color: '#000000', 
                       fontFamily: 'inherit', 
                       fontWeight: 'normal',
-                      fontSize: '14px',
-                      lineHeight: '1.25rem'
+                      fontSize: window.innerWidth < 1024 ? '13px' : '14px',
+                      paddingLeft: '40px',
+                      paddingRight: searchLoading ? '40px' : '16px',
+                      paddingTop: window.innerWidth < 1024 ? '7px' : '5px',
+                      paddingBottom: window.innerWidth < 1024 ? '8px' : '7px',
+                      textAlign: 'left',
+                      boxSizing: 'border-box',
+                      height: window.innerWidth < 1024 ? '36px' : '32px',
+                      display: window.innerWidth < 1024 ? 'flex' : 'block',
+                      alignItems: window.innerWidth < 1024 ? 'center' : 'initial',
+                      WebkitTextSizeAdjust: '100%',
+                      WebkitFontSmoothing: 'antialiased',
+                      MozOsxFontSmoothing: 'grayscale'
                     }}
                   />
                 </div>
@@ -900,15 +1007,15 @@ const TutoringAds = () => {
       </div>
 
       {/* Desktop Layout - Original */}
-      <div className="bg-white border-b border-[#E4E4E4] pt-1.5 pb-2 sm:pt-2 sm:pb-2 sticky top-[48px] z-[60] hidden lg:block" style={{
+      <div className="bg-white border-b border-[#E4E4E4] sticky top-[55px] z-[60] hidden lg:block" style={{
+        height: '55px',
         willChange: 'transform',
         transform: 'translateZ(0)',
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
-        borderTop: '1px solid #E4E4E4',
       }}>
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 overflow-visible">
-          <div className="flex items-center space-x-2 sm:space-x-3 py-2">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 overflow-visible h-full">
+          <div className="flex items-center space-x-2 sm:space-x-3 h-full">
             {/* Filter Buttons */}
             <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto pb-0">
               {/* Categories Dropdown */}
@@ -950,10 +1057,14 @@ const TutoringAds = () => {
                 <button
                   ref={sortButtonRef}
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                     sortBy !== 'newest' ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                   }`}
-                  style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                  style={{
+                    backgroundColor: '#F1F1F1', 
+                    color: '#000000',
+                    fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                  }}
                 >
                   {getCurrentSortLabel()}
                 </button>
@@ -1008,10 +1119,14 @@ const TutoringAds = () => {
                 <button
                   ref={priceButtonRef}
                   onClick={() => setShowPriceDropdown(!showPriceDropdown)}
-                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                  className={`inline-flex items-center justify-center whitespace-nowrap gap-x-1.5 rounded-full px-3 py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                     selectedPriceRange !== 'Wszystkie ceny' ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                   }`}
-                  style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                  style={{
+                    backgroundColor: '#F1F1F1', 
+                    color: '#000000',
+                    fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                  }}
                 >
                   {selectedPriceRange}
                 </button>
@@ -1064,10 +1179,14 @@ const TutoringAds = () => {
               {/* Moje zakładki Button */}
               <button
                 onClick={handleShowFavoritesToggle}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-2 sm:py-2.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm shadow-sm ring-1 ring-inset hover:bg-gray-100 transition-all duration-150 ${
                   showFavoritesOnly ? 'ring-[#e1b438]' : 'ring-[#F1F1F1]'
                 }`}
-                style={{backgroundColor: '#F1F1F1', color: '#000000'}}
+                style={{
+                  backgroundColor: '#F1F1F1', 
+                  color: '#000000',
+                  fontSize: window.innerWidth < 1024 ? '13px' : '14px'
+                }}
               >
                 Moje zakładki
               </button>
@@ -1087,16 +1206,27 @@ const TutoringAds = () => {
                   placeholder="Szukaj ogłoszeń..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`w-full pl-10 pr-4 h-10 text-sm border rounded-full focus:outline-none hover:bg-gray-100 transition-colors box-border leading-none placeholder-black ${
+                  className={`w-full h-8 text-sm border rounded-full focus:outline-none hover:bg-gray-100 transition-colors placeholder-black placeholder:text-sm ${
                     searchTerm ? 'border-[#e1b438]' : 'border-[#F1F1F1]'
-                  } ${searchLoading ? 'pr-10' : ''}`}
+                  } ${searchLoading ? 'pr-10' : 'pr-4'}`}
                   style={{
                     backgroundColor: '#F1F1F1', 
                     color: '#000000', 
                     fontFamily: 'inherit', 
                     fontWeight: 'normal',
-                    fontSize: '14px',
-                    lineHeight: '1.25rem'
+                    fontSize: window.innerWidth < 1024 ? '13px' : '14px',
+                    paddingLeft: '40px',
+                    paddingRight: searchLoading ? '40px' : '16px',
+                    paddingTop: window.innerWidth < 1024 ? '7px' : '5px',
+                    paddingBottom: window.innerWidth < 1024 ? '8px' : '7px',
+                    textAlign: 'left',
+                    boxSizing: 'border-box',
+                    height: window.innerWidth < 1024 ? '36px' : '32px',
+                    display: window.innerWidth < 1024 ? 'flex' : 'block',
+                    alignItems: window.innerWidth < 1024 ? 'center' : 'initial',
+                    WebkitTextSizeAdjust: '100%',
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale'
                   }}
                 />
               </div>
@@ -1108,18 +1238,22 @@ const TutoringAds = () => {
       {/* Tutoring Ads List */}
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 pt-2 pb-4">
         {/* Information Blocks */}
-        <div className="text-sm text-black mb-2 overflow-x-auto whitespace-nowrap -mx-2 sm:-mx-4 px-2 sm:px-4">
-            <div className="flex items-center space-x-4 py-1">
-                <div className="inline-flex items-center flex-shrink-0">
-                    <span className="h-2 w-2 bg-[#38D5E1] rounded-full mr-2"></span>
-                    <span>Znaleziono {sortedAds.length} ogłoszeń</span>
-                </div>
-                <div className="inline-flex items-center flex-shrink-0">
-                    <span className="h-2 w-2 bg-[#E1B438] rounded-full mr-2"></span>
-                    <span>Jakiś inny tekst informacyjny</span>
-                </div>
-            </div>
-        </div>
+        {loading || filterLoading || searchLoading ? (
+          <SkeletonInfoBlocks />
+        ) : (
+          <div className="text-xs text-black mb-2 overflow-x-auto whitespace-nowrap -mx-2 sm:-mx-4 px-2 sm:px-4">
+              <div className="flex items-center space-x-4 py-1">
+                  <div className="inline-flex items-center flex-shrink-0">
+                      <span className="h-2 w-2 bg-[#38D5E1] rounded-full mr-2"></span>
+                      <span>Znaleziono {sortedAds.length} {getPolishPlural(sortedAds.length)}</span>
+                  </div>
+                  <div className="inline-flex items-center flex-shrink-0">
+                      <span className="h-2 w-2 bg-[#E1B438] rounded-full mr-2"></span>
+                      <span>Jakiś inny tekst informacyjny</span>
+                  </div>
+              </div>
+          </div>
+        )}
 
         {/* Mobile: Single column layout */}
         <div className="lg:hidden">

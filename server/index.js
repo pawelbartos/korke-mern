@@ -18,14 +18,64 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: function (origin, callback) {
+      // Allow requests with no origin
+      if (!origin) return callback(null, true);
+      
+      // Allow localhost for development
+      if (origin.includes('localhost')) return callback(null, true);
+      
+      // Allow all Vercel domains for this project
+      if (origin.includes('pawels-projects-6bbbf083.vercel.app') || 
+          origin.includes('client-green-phi-60.vercel.app') ||
+          origin.includes('client-hru3eyc6u-pawels-projects-6bbbf083.vercel.app')) {
+        return callback(null, true);
+      }
+      
+      // Allow custom domain korke.pl
+      if (origin.includes('korke.pl')) {
+        return callback(null, true);
+      }
+      
+      // Allow the specific CLIENT_URL if set
+      if (origin === process.env.CLIENT_URL) {
+        return callback(null, true);
+      }
+      
+      callback(new Error('Not allowed by CORS'));
+    },
     methods: ["GET", "POST"]
   }
 });
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost for development
+    if (origin.includes('localhost')) return callback(null, true);
+    
+    // Allow all Vercel domains for this project
+    if (origin.includes('pawels-projects-6bbbf083.vercel.app') || 
+        origin.includes('client-green-phi-60.vercel.app') ||
+        origin.includes('client-hru3eyc6u-pawels-projects-6bbbf083.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    // Allow custom domain korke.pl
+    if (origin.includes('korke.pl')) {
+      return callback(null, true);
+    }
+    
+    // Allow the specific CLIENT_URL if set
+    if (origin === process.env.CLIENT_URL) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
@@ -78,7 +128,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Client URL: ${process.env.CLIENT_URL || 'http://localhost:3000'}`);

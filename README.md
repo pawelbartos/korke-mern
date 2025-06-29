@@ -1,5 +1,11 @@
 # Portal Ogłoszeń Korepetycji - MERN Stack
 
+## 🚨 WAŻNE: Dla AI Assistant
+**PRZED JAKĄKOLWIEK POMOCĄ SPRAWDŹ: `AI_WORKFLOW.md` i `DEPLOYMENT_CONFIG.md`**
+**Baza danych: `test` (nie `tutoring-portal`!)**
+
+---
+
 W pełni funkcjonalny portal ogłoszeń korepetycji zbudowany w technologii MERN Stack (MongoDB, Express.js, React.js, Node.js).
 
 ## 🚀 Funkcjonalności

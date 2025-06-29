@@ -1,0 +1,42 @@
+# AI INSTRUCTIONS - KORKE MERN PROJECT
+
+## CRITICAL: READ DOCUMENTATION FIRST!
+
+Before ANY action in this project:
+1. READ: AI_WORKFLOW.md
+2. READ: DEPLOYMENT_CONFIG.md  
+3. CHECK: server/PRODUCTION_CONFIG.txt
+4. CHECK: client/FRONTEND_CONFIG.txt
+5. CHECK: AI memories about this project
+
+## KEY FACTS:
+- Database: 'test' (NOT 'tutoring-portal')
+- MongoDB: korke.bm67q6y.mongodb.net/test
+- Backend: https://korke-backend-139636337078.europe-west1.run.app
+- Frontend: https://client-hru3eyc6u-pawels-projects-6bbbf083.vercel.app
+
+## NEVER:
+- Guess database names
+- Test APIs without checking docs
+- Assume default values
+- Skip documentation check
+- Edit .env files with edit_file (AI has no access!)
+- Use echo > .env (deletes existing content!)
+- Assume .env was changed successfully
+
+## ALWAYS:
+- Read docs before acting
+- Update docs after changes
+- Save new info to AI memory
+- Add update dates
+- Check if .env exists before trying to edit
+- Give INSTRUCTIONS for .env - never edit directly
+- Use ls/cat to check .env files
+
+## .ENV WORKFLOW:
+1. Check: ls -la client/.env
+2. Read: cat client/.env (if exists)
+3. Give instructions to user (never edit directly)
+4. Verify: cat client/.env (after user changes)
+
+This is MANDATORY workflow! 

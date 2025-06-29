@@ -1,0 +1,17 @@
+PRODUKCYJNA KONFIGURACJA - Google Cloud Run
+=============================================
+
+MONGODB_URI=mongodb+srv://aasdafefe854afaf:Ptasie123.@korke.bm67q6y.mongodb.net/test?retryWrites=true&w=majority&appName=Korke
+CLIENT_URL=https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app
+JWT_SECRET=korke-super-secret-jwt-key-2024
+NODE_ENV=production
+PORT=8080 (automatyczne)
+
+UWAGA: Baza danych = 'test' (nie 'tutoring-portal')
+Dane: 30 ogłoszeń + 5 użytkowników
+
+Konfiguracja jest w: server/service.yaml
+
+---
+**Ostatnia aktualizacja**: 2025-06-29 18:23
+**Zmiana**: Wyrównanie wysokości search bar w mobile + nowy URL frontendu 

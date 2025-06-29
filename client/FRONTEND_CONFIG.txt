@@ -106,10 +106,10 @@ Deploy: vercel --prod
   - Proper z-index layering for all components
 
 # FRONTEND CONFIGURATION - KORKE MERN PROJECT
-# Last updated: 2025-01-28
+# Last updated: 2024-12-19
 
 ## DEPLOYMENT
-- **Frontend URL**: https://client-bsp4a9fpe-pawels-projects-6bbbf083.vercel.app
+- **Frontend URL**: https://client-hru3eyc6u-pawels-projects-6bbbf083.vercel.app
 - **Backend URL**: https://korke-backend-qm72ucfvqq-ew.a.run.app
 - **Database**: MongoDB Atlas - 'test' database
 
@@ -225,4 +225,59 @@ AUTHENTICATION:
 - Login Modal: Full screen on mobile (no padding, no max-height), centered modal on desktop, fade-in animation only
 - **NEW**: No header with login text, X icon in white circle on banner (mobile only)
 - **NOTE**: Clear browser cache if header still appears
+
+DEPLOYMENT:
+- Platform: Vercel
+- URL: https://client-hru3eyc6u-pawels-projects-6bbbf083.vercel.app
+- Build Command: npm run build
+- Output Directory: build
+- Node Version: 18.x
+
+MOBILE MENU (Navbar.js):
+- Hamburger button transforms to X on click (burger→X transition)
+- Menu slides up from bottom to navbar edge with slide-up animation
+- Menu height: calc(100vh - 54px)
+- Header with X button removed - X is now in navbar
+- Animations: 300ms duration, overlay with fade in/out
+
+LOGIN MODAL (LoginModal.js):
+- Header with "Logowanie" text and old X icon removed
+- New X icon in white circle at top-right corner of banner (mobile only)
+- Banner image height: 55% of popup height
+- Banner scroll animation: Improved implementation with seamless loop
+  - Single container with 200% width containing two images side by side
+  - Animation: 15s linear infinite scroll from 0 to -50%
+  - Eliminates stuttering, overlapping issues, and empty background areas
+  - Uses float-left positioning for smooth side-by-side display
+
+BANNER ANIMATION (index.css):
+- Keyframes: banner-scroll (0% to -50% translateX)
+- Duration: 15s linear infinite
+- Container: 200% width with overflow hidden
+- Images: Two identical images at 50% width each, float-left
+- Smooth seamless loop without jumping or gaps
+
+RESPONSIVE DESIGN:
+- Mobile-first approach
+- Desktop: Modal with rounded corners and shadow
+- Mobile: Full-screen modal without rounded corners
+- Touch-friendly interactions
+
+ANIMATIONS:
+- Framer Motion for modal animations
+- CSS keyframes for banner scroll
+- Smooth transitions (300ms duration)
+- Hardware acceleration enabled
+
+TOUCH HANDLING:
+- Prevents body scroll when modal is open
+- Touch-friendly button sizes
+- Proper overscroll behavior
+- iOS-specific optimizations
+
+BUILD CONFIGURATION:
+- Tailwind CSS for styling
+- PostCSS for processing
+- Vercel for deployment
+- Environment variables properly configured
 --- 

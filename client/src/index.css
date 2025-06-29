@@ -229,29 +229,16 @@
   animation: slide-up 0.3s ease-out;
 }
 
-@keyframes banner-scroll-1 {
+/* Improved banner scroll animation */
+@keyframes banner-scroll {
   0% { 
     transform: translateX(0); 
   }
   100% { 
-    transform: translateX(-100%); 
+    transform: translateX(-50%); 
   }
 }
 
-@keyframes banner-scroll-2 {
-  0% { 
-    transform: translateX(0); 
-  }
-  100% { 
-    transform: translateX(-100%); 
-  }
-}
-
-.animate-banner-scroll-1 {
-  animation: banner-scroll-1 10s linear infinite;
-}
-
-.animate-banner-scroll-2 {
-  animation: banner-scroll-2 10s linear infinite;
-  animation-delay: -5s;
+.animate-banner-scroll {
+  animation: banner-scroll 15s linear infinite;
 } 

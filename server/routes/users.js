@@ -90,27 +90,6 @@ router.put('/profile/teacher', [
   }
 });
 
-// @route   GET /api/users/:id
-// @desc    Get user profile by ID
-// @access  Public
-router.get('/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-      .select('-password -email')
-      .populate('subjects')
-      .populate('education');
-
-    if (!user) {
-      return res.status(404).json({ message: 'Użytkownik nie został znaleziony' });
-    }
-
-    res.json(user);
-  } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({ message: 'Błąd serwera' });
-  }
-});
-
 // @route   GET /api/users/teachers
 // @desc    Get all teachers with filters
 // @access  Public
@@ -160,6 +139,27 @@ router.get('/teachers', async (req, res) => {
     });
   } catch (error) {
     console.error('Get teachers error:', error);
+    res.status(500).json({ message: 'Błąd serwera' });
+  }
+});
+
+// @route   GET /api/users/:id
+// @desc    Get user profile by ID
+// @access  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select('-password -email')
+      .populate('subjects')
+      .populate('education');
+
+    if (!user) {
+      return res.status(404).json({ message: 'Użytkownik nie został znaleziony' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Get user error:', error);
     res.status(500).json({ message: 'Błąd serwera' });
   }
 });

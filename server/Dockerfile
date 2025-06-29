@@ -11,8 +11,11 @@ RUN npm ci --only=production
 # Copy application files
 COPY . .
 
-# Expose port
-EXPOSE 5000
+# Expose port 8080 (Cloud Run requirement)
+EXPOSE 8080
+
+# Set environment variable for port
+ENV PORT=8080
 
 # Start the application
 CMD ["npm", "start"] 

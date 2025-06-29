@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: korke-backend
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      containers:
+      - image: gcr.io/korke-c0097/korke-backend
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: MONGODB_URI
+          value: "mongodb+srv://aasdafefe854afaf:Ptasie123.@korke.bm67q6y.mongodb.net/test?retryWrites=true&w=majority&appName=Korke"
+        - name: CLIENT_URL
+          value: "https://client-1psxklam1-pawels-projects-6bbbf083.vercel.app"
+        - name: JWT_SECRET
+          value: "korke-super-secret-jwt-key-2024" 
